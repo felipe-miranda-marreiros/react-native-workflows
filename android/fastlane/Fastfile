@@ -18,6 +18,7 @@ default_platform(:android)
 platform :android do
   desc "Build AAB and upload to Internal Track"
   lane :build_and_upload_internal do
+    skip_docs
     gradle(
     task: "bundle",
     build_type: 'release'
@@ -39,7 +40,7 @@ platform :android do
 
   desc "Build AAB locally"
   lane :build_aab_local do |options|
-
+    skip_docs
     gradle(
       task: 'bundle',
       build_type: 'release',
