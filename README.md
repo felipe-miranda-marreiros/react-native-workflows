@@ -21,3 +21,5 @@
 - GitHub CLI create PR: https://cli.github.com/manual/gh_pr_create
 - Using GitHub CLI in workflows: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/using-github-cli-in-workflows
 - About the GITHUB_TOKEN secret: https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication
+- Using conditions to control job execution: https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/using-conditions-to-control-job-execution
+- GitHub Expression - startsWith: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#startswith
