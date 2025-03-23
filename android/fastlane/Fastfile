@@ -25,6 +25,7 @@ platform :android do
     )
     upload_to_play_store(
       track: 'internal',
+      release_status: 'draft',
       skip_upload_apk: true
     )
   end
@@ -33,6 +34,7 @@ platform :android do
   lane :upload_internal do    
     upload_to_play_store(
       track: 'internal',
+      release_status: 'draft',
       skip_upload_apk: true,
       aab: 'app/build/outputs/bundle/release/app-release.aab'
     )
@@ -44,7 +46,6 @@ platform :android do
     gradle(
       task: 'bundle',
       build_type: 'release',
-      release_status: 'draft',
       properties: {
         "android.injected.signing.store.file" => Dir.pwd + "/keystore.jks",
         "android.injected.signing.store.password" => options[:ANDROID_STORE_PASSWORD],
