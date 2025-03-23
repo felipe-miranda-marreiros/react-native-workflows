@@ -1,6 +1,6 @@
 {
-  "name": "AwesomeProject",
-  "version": "0.0.1",
+  "name": "AwesomeJobsApp",
+  "version": "0.0.3",
   "private": true,
   "scripts": {
     "android": "react-native run-android",

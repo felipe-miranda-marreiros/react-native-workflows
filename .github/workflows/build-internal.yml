@@ -1,0 +1,65 @@
+name: Build Internal Version
+
+env:
+  AAB_PATH: android/app/build/outputs/bundle/release/app-release.aab
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  run-checks:
+    if: github.event_name == 'workflow_dispatch' || (github.event.pull_request.merged == true && github.base_ref == 'feat/android-workflow' && startsWith(github.head_ref, 'release/'))
+    uses: ./.github/workflows/pull-request.yml
+
+  build-android:
+    needs: run-checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./android
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.Js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+
+      - name: Install Packages
+        run: npm install
+
+      - name: Decrypt Android Keys
+        run: sh $GITHUB_WORKSPACE/.github/scripts/decrypt_android_keys.sh
+        env:
+          KEYSTORE: ${{secrets.KEYSTORE}}
+          PLAYSTORE: ${{secrets.PLAYSTORE}}
+          ANDROID_KEYSTORE_PASSPHRASE: ${{secrets.ANDROID_KEYSTORE_PASSPHRASE}}
+          ANDROID_PLAYSTORE_PASSPHRASE: ${{secrets.ANDROID_PLAYSTORE_PASSPHRASE}}
+
+      - name: Make Gradlew Executable
+        run: chmod +x ./gradlew
+
+      - name: Build AAB
+        run: fastlane build_aab_local ANDROID_STORE_PASSWORD:${{secrets.ANDROID_STORE_PASSWORD}} ANDROID_KEY_ALIAS:${{secrets.ANDROID_KEY_ALIAS}} ANDROID_KEY_PASSWORD:${{secrets.ANDROID_KEY_PASSWORD}}
+
+      - name: 'Upload to Playstore Internal Track'
+        run: fastlane upload_internal
+
+      - name: Upload AAB to Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.aab
+          path: ${{env.AAB_PATH}}
+          retention-days: 30

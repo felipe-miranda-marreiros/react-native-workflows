@@ -73,3 +73,8 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+android/play-store-credentials.json
+android/keystore.jks
+.env.internal
+android/app/keystore.jks
+android/fastlane/keystore.jks
