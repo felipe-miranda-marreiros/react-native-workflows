@@ -20,6 +20,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Node.Js
         uses: actions/setup-node@v4
         with:
@@ -35,7 +36,7 @@ jobs:
         run: npm install
 
       - name: Decrypt Android Keys
-        run: sh ./.github/scripts/decrypt_android_keys.sh
+        run: sh $GITHUB_WORKSPACE/.github/scripts/decrypt_android_keys.sh
         env:
           KEYSTORE: ${{secrets.KEYSTORE}}
           PLAYSTORE: ${{secrets.PLAYSTORE}}
