@@ -1,3 +1,67 @@
+# REACT-NATIVE_WORKFLOWS
+
+Workflows to build and upload to PlayStore using Github Actions.
+
+### Requirements
+
+- Google Developer Account.
+- Upload Keystore.
+
+### Dependencies
+
+- Ruby
+- Fastlane
+- React Native
+- GPG (or Base64)
+- Github Actions
+ 
+### Folder Structure
+
+The Upload Keystore and Google Account JSON paths.
+
+```
+android/fastlane/keystore.jks
+android/play-store-credentials.json
+```
+
+### Environmental Variables
+
+```js
+// Upload Keystore and Google Account
+KEYSTORE
+PLAYSTORE
+ANDROID_STORE_PASSWORD
+ANDROID_KEY_PASSWORD
+ANDROID_KEY_ALIAS
+```
+
+```js
+// GPG Keys
+ANDROID_KEYSTORE_PASSPHRASE
+ANDROID_PLAYSTORE_PASSPHRASE
+```
+
+### Android overview
+
+![image](https://github.com/user-attachments/assets/a0865641-203e-4d1e-8020-0e4bd691ccae)
+
+We can create flavors and lanes according to our project we are working on.
+
+```ruby
+ gradle(
+      task: 'bundle',
+      flavor: 'development',
+      build_type: 'release',
+    )
+```
+
+The flavor parameter must be the same name we defined in the `android/app/src`
+
+### Github Actions
+Each time we push a tag (for example, git tag 0.1.3), a new branch with the same git tag will be created (release/0.1.3).
+![image](https://github.com/user-attachments/assets/3149741f-ab39-4d36-9a9b-07ed72630482)
+
+## References
 ### App Resources
 
 - https://progressier.com/pwa-screenshots-generator
